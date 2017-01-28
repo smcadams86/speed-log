@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- open:graph tags -->
+    <meta property="og:url" content="http://localhost:8080/" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="SpeedTest Dashboard" />
+    <meta property="og:description" content="Ein Dashboard um Ergebnisse von automatisiert ausgeführten Speedtests als Graphen darzustellen." />
+    <meta property="og:image" content="http://i.imgur.com/R8Y4EjY.jpg" />
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app" class="main" v-cloak v-if="config.app !== undefined">
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo"><i class="material-icons">portable_wifi_off</i>{{ config.copy.header }}</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                </ul>
+            </div>
+        </nav>
+        <section class="main-wrap">
+            <div class="row">
+                <div class="col s12">
+                    <h5>{{ config.copy.pre.headline }}</h5>
+                </div>
+                <div class="col s12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="row">
+                                <div class="col s12 l6">
+                                    <div class="contact">
+                                        <img class="circle" :src="config.copy.pre.author.avatar">
+                                        <div class="contact--content">
+                                            <span class="name">{{ config.copy.pre.author.name }}</span>
+                                            <span class="email">
+                                                {{ config.copy.pre.author.mail }}</span>
+                                            <span class="phone">
+                                                {{ config.copy.pre.author.phone }}</span>
+                                        </div>
+                                    </div>
+                                    <p v-html>{{ config.copy.pre.text }}
+                                    </p>
+                                    <p>More Info on <a href=\"https://github.com/kitsunekyo/internet-speed-log\">GitHub</a></p>
+                                </div>
+                                <div class="col s12 l6">
+                                    <div class="collection">
+                                        <a href="#!" class="collection-item"><span class="badge">{{ config.copy.pre.details.location.val }}</span>{{ config.copy.pre.details.location.hl }}</a>
+                                        <a href="#!" class="collection-item"><span class="badge">{{ config.copy.pre.details.contract.val }}</span>{{ config.copy.pre.details.contract.hl }}</a>
+                                        <a href="#!" class="collection-item"><span class="badge">{{ config.copy.pre.details.connection.val }}</span>{{ config.copy.pre.details.connection.hl }}</a>
+                                        <a href="#!" class="collection-item"><span class="badge">{{ config.copy.pre.details.datasource.val }}</span>{{ config.copy.pre.details.datasource.hl }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <h5>{{ config.copy.dashboard.headline}}</h5>
+                </div>
+                <div class="col s12 l3">
+                    <div class="card big-number">
+                        <div class="card-content">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                            <span class="card-title">~ Download Speed</span>
+                            <span class="num-value">{{ log.avg.download }}</span><span class="num-unit">Mbps</span>
+                            <div class="details">
+                                <span class="min">{{ log.min.download }}</span><span class="label">min</span> | <span class="max">{{ log.max.download }}</span><span class="label">max</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card big-number">
+                        <div class="card-content">
+                            <i class="fa fa-upload" aria-hidden="true"></i>
+                            <span class="card-title">~ Upload Speed</span>
+                            <span class="num-value">{{ log.avg.upload }}</span><span class="num-unit">Mbps</span>
+                            <div class="details">
+                                <span class="min">{{ log.min.upload }}</span><span class="label">min</span> | <span class="max">{{ log.max.upload }}</span><span class="label">max</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card big-number">
+                        <div class="card-content">
+                            <i class="fa fa-exchange" aria-hidden="true"></i>
+                            <span class="card-title">~ Ping</span>
+                            <span class="num-value">{{ log.avg.ping }}</span><span class="num-unit">ms</span>
+                            <div class="details">
+                                <span class="min">{{ log.min.ping }}</span><span class="label">min</span> | <span class="max">{{ log.max.ping }}</span><span class="label">max</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 l9">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">Speed History</span>
+                            <div id="speedChart" style="width: 100%; height: 400px;"></div>
+                            <form action="#">
+                                <p>
+                                    <!-- Switch -->
+                                    <div class="switch">
+                                        <label>
+                                        Select
+                                        <input type="checkbox" name="groupSpeed" @click="chartSetPanSelect">
+                                        <span class="lever"></span>
+                                        Pan
+                                        </label>
+                                    </div>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">Ping History</span>
+                            <div id="pingChart" style="width: 100%; height: 400px;"></div>
+                            <form action="#">
+                                <p>
+                                    <!-- Switch -->
+                                    <div class="switch">
+                                        <label>
+                                        Select
+                                        <input type="checkbox" name="groupPing" @click="chartSetPanSelect">
+                                        <span class="lever"></span>
+                                        Pan
+                                        </label>
+                                    </div>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer class="page-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col l6 s12">
+                        <h5 class="white-text">{{ config.copy.footer.headline}}</h5>
+                        <p class="grey-text text-lighten-4">{{ config.copy.footer.disclaimer}}</p>
+                    </div>
+                    <div class="col l4 offset-l2 s12">
+
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    {{ config.copy.footer.copyright}}
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+    <script src="js/vendor/moment-with-locales.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+    <script src="js/vendor/amcharts/amcharts.js" type="text/javascript"></script>
+    <script src="js/vendor/amcharts/serial.js" type="text/javascript"></script>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>

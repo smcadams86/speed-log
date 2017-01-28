@@ -1,0 +1,45 @@
+{
+    "app": {
+        "jsonUrl": "/logs/log.json",
+        "locale": "en-US"
+    },
+    "copy": {
+        "header": "Charter SpeedTest",
+        "pre": {
+            "headline": "Contact",
+            "author": {
+                "name": "Steven McAdams",
+                "mail": "smcadams86@@gmail.com",
+                "phone": "",
+                "avatar": "//gravatar.com/avatar/1b0fb035ace2aef5ebcbb9de834a2e18"
+            },
+            "text": "To track the performance and stability of my Internet connection from Charter, I created a small software setup for capturing and storing speed / ping tests.",
+            "details": {
+                "location": {
+                    "hl": "Location",
+                    "val": ""
+                },
+                "contract": {
+                    "hl": "Contract",
+                    "val": ""
+                },
+                "connection": {
+                    "hl": "Connection",
+                    "val": ""
+                },
+                "datasource": {
+                    "hl": "Test Utility",
+                    "val": "speedtest-cli"
+                }
+            }
+        },
+        "dashboard" : {
+            "headline": "ISP Performance"
+        },
+        "footer": {
+            "headline": "ISP Performance",
+            "disclaimer": "Diese Daten können ohne Einschränkung verwendet werden.",
+            "copyright": "© 2017 Author: Ing. Alexander Spieslechner"
+        }
+    }
+}
