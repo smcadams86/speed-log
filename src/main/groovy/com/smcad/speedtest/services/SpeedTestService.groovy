@@ -2,6 +2,7 @@ package com.smcad.speedtest.services
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 
@@ -14,9 +15,15 @@ public class SpeedTestService {
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-    @Scheduled(fixedRate = 60000L)
+    @Value('${speed.script}')
+    private String speedTestScript;
+
+    @Scheduled(fixedRate = 3600000L)
     public void reportCurrentTime() {
-        log.info("The time is now {}", dateFormat.format(new Date()));
+        log.info("Executing speed test at {}", dateFormat.format(new Date()));
+
+        new ProcessBuilder(speedTestScript).start();
+
     }
 }
 

@@ -1,7 +1,7 @@
 #!/bin/sh
 ## Configuration
-LOG_FILE=/home/steve/Documents/dev/internet-speed-log/logs/log.json
-SPEEDTEST_CLI=/usr/local/bin/speedtest-cli
+LOG_FILE=/data/speed-test/log.json
+SPEEDTEST_CLI=/data/speed-test/speedtest-cli
 ##
 
 SPEED_RESULT=[$(python $SPEEDTEST_CLI --json)]
