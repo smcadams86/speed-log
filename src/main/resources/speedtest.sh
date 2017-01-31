@@ -1,7 +1,7 @@
 #!/bin/sh
 ## Configuration
-LOG_FILE=/data/speed-test/log.json
-SPEEDTEST_CLI=/data/speed-test/speedtest-cli
+LOG_FILE=/data/speed-log/log.json
+SPEEDTEST_CLI=/data/speed-log/speedtest-cli
 ##
 
 SPEED_RESULT=[$(python $SPEEDTEST_CLI --json)]
